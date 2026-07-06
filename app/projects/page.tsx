@@ -1,7 +1,6 @@
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
 import { Layers, Wind, Cpu, ExternalLink } from "lucide-react"
 
 const projects = [
@@ -66,112 +65,113 @@ export default function ProjectsPage() {
     <div className="min-h-screen">
       <Navbar />
 
-      <main className="mx-auto max-w-5xl px-6">
+      <main className="mx-auto max-w-[1400px] px-6 lg:px-10">
         {/* Header */}
-        <section className="pb-10 pt-16">
-          <p className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-primary">
-            项目实践
-          </p>
-          <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-            仿真项目记录
-          </h1>
-          <p className="mt-3 max-w-lg text-sm leading-relaxed text-muted-foreground">
-            将课堂知识应用于真实工程问题，记录每个项目的方法、结果与经验教训。
-          </p>
+        <section className="pb-14 pt-20">
+          <div className="grid gap-8 lg:grid-cols-12">
+            <div className="lg:col-span-7">
+              <p className="mb-3 font-mono text-xs uppercase tracking-[0.25em] text-primary">
+                项目实践
+              </p>
+              <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+                仿真项目记录
+              </h1>
+              <p className="mt-3 max-w-lg text-base leading-relaxed text-muted-foreground">
+                将课堂知识应用于真实工程问题，记录每个项目的方法、结果与经验教训。
+              </p>
+            </div>
+          </div>
         </section>
 
-        <Separator className="mb-12 opacity-30" />
-
         {/* Projects */}
-        <div className="flex flex-col gap-10">
+        <div className="grid gap-6 pb-16">
           {projects.map((project, idx) => (
             <article key={project.id}>
-              <div className="flex flex-col gap-6 lg:flex-row lg:gap-10">
-                {/* Left index */}
-                <div className="flex shrink-0 flex-row items-start gap-4 lg:flex-col lg:items-center lg:gap-3 lg:pt-1">
-                  <div className="flex size-10 items-center justify-center rounded-lg border border-primary/30 bg-primary/10 text-primary">
-                    {project.icon}
-                  </div>
-                  <div className="flex lg:flex-col lg:items-center lg:gap-1">
-                    <span className="font-mono text-xs text-muted-foreground">
+              <div className="rounded-2xl border border-border/30 bg-card/50 p-6 transition-all hover:border-border/60 hover:bg-card sm:p-8 lg:p-10">
+                <div className="flex flex-col gap-6 lg:flex-row lg:gap-10">
+                  {/* Left index */}
+                  <div className="flex shrink-0 items-start gap-4 lg:flex-col lg:items-center lg:gap-3 lg:pt-1">
+                    <div className="flex size-11 items-center justify-center rounded-xl border border-primary/30 bg-primary/10 text-primary">
+                      {project.icon}
+                    </div>
+                    <span className="font-mono text-sm text-muted-foreground">
                       {String(idx + 1).padStart(2, "0")}
                     </span>
                   </div>
-                </div>
 
-                {/* Content */}
-                <div className="flex-1 min-w-0">
-                  <div className="mb-3 flex flex-wrap items-center gap-2">
-                    <span
-                      className={`rounded border px-2 py-0.5 font-mono text-xs ${statusColor[project.status]}`}
-                    >
-                      {project.status}
-                    </span>
-                    <span className="text-xs text-muted-foreground">{project.category}</span>
-                  </div>
-
-                  <h2 className="mb-3 text-xl font-semibold leading-snug text-foreground">
-                    {project.title}
-                  </h2>
-
-                  <p className="mb-5 text-sm leading-relaxed text-muted-foreground">{project.desc}</p>
-
-                  {/* Highlights */}
-                  <div className="mb-5 rounded-lg border border-border/40 bg-card p-4">
-                    <p className="mb-3 font-mono text-xs uppercase tracking-wider text-muted-foreground">
-                      主要成果
-                    </p>
-                    <ul className="flex flex-col gap-2">
-                      {project.highlights.map((h, hi) => (
-                        <li key={hi} className="flex items-start gap-2">
-                          <span className="mt-1.5 size-1 shrink-0 rounded-full bg-primary" />
-                          <span className="text-xs leading-relaxed text-muted-foreground">{h}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Meta */}
-                  <div className="flex flex-wrap items-center gap-3">
-                    <div className="flex flex-wrap gap-1.5">
-                      {project.tags.map((tag) => (
-                        <Badge key={tag} variant="secondary" className="px-2 py-0 text-xs font-normal">
-                          {tag}
-                        </Badge>
-                      ))}
+                  {/* Content */}
+                  <div className="flex-1 min-w-0">
+                    <div className="mb-3 flex flex-wrap items-center gap-2">
+                      <span
+                        className={`rounded-md border px-2.5 py-0.5 font-mono text-xs ${statusColor[project.status]}`}
+                      >
+                        {project.status}
+                      </span>
+                      <span className="text-sm text-muted-foreground">{project.category}</span>
                     </div>
-                    <div className="ml-auto flex flex-wrap gap-2">
-                      {project.software.map((sw) => (
-                        <span key={sw} className="font-mono text-xs text-muted-foreground">
-                          {sw}
-                        </span>
-                      ))}
+
+                    <h2 className="mb-3 text-xl font-semibold leading-snug text-foreground lg:text-2xl">
+                      {project.title}
+                    </h2>
+
+                    <p className="mb-5 text-sm leading-relaxed text-muted-foreground">{project.desc}</p>
+
+                    {/* Highlights */}
+                    <div className="mb-5 rounded-xl border border-border/30 bg-background/50 p-5">
+                      <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+                        主要成果
+                      </p>
+                      <ul className="flex flex-col gap-2.5">
+                        {project.highlights.map((h, hi) => (
+                          <li key={hi} className="flex items-start gap-3">
+                            <span className="mt-2 size-1.5 shrink-0 rounded-full bg-primary" />
+                            <span className="text-sm leading-relaxed text-muted-foreground">{h}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Meta */}
+                    <div className="flex flex-wrap items-center gap-3">
+                      <div className="flex flex-wrap gap-1.5">
+                        {project.tags.map((tag) => (
+                          <Badge key={tag} variant="secondary" className="px-2 py-0 text-xs font-normal">
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
+                      <div className="ml-auto hidden flex-wrap gap-3 sm:flex">
+                        {project.software.map((sw) => (
+                          <span key={sw} className="font-mono text-xs text-muted-foreground">
+                            {sw}
+                          </span>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-
-              {idx < projects.length - 1 && <Separator className="mt-10 opacity-30" />}
             </article>
           ))}
         </div>
 
         {/* CTA */}
-        <section className="mb-4 mt-16">
-          <div className="rounded-xl border border-border/40 bg-card px-8 py-7">
-            <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+        <section className="mb-8 mt-20">
+          <div className="relative overflow-hidden rounded-2xl border border-border/30 bg-card px-8 py-10 sm:px-12">
+            <div className="absolute -top-24 -right-24 size-64 rounded-full bg-primary/5 blur-3xl" />
+            <div className="relative flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <p className="flex items-center gap-2 text-sm font-medium text-foreground">
+                <p className="flex items-center gap-2.5 text-base font-medium text-foreground">
                   <ExternalLink className="size-4 text-primary" />
                   有意思的仿真项目？
                 </p>
-                <p className="mt-1 text-xs text-muted-foreground">
+                <p className="mt-2 text-sm text-muted-foreground">
                   如果你有想合作探索的 CAE 项目或问题，欢迎联系交流。
                 </p>
               </div>
               <a
                 href="mailto:hello@example.com"
-                className="shrink-0 rounded border border-primary/40 bg-primary/10 px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/20"
+                className="shrink-0 rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-all hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/20"
               >
                 联系我
               </a>

@@ -47,6 +47,9 @@ type Block =
   | { type: "code"; lang: string; lines: string[] }
   | { type: "table"; headers: string[]; rows: string[][] }
   | { type: "list"; items: string[] }
+  | { type: "orderedList"; items: string[] }
+  | { type: "blockquote"; text: string }
+  | { type: "hr" }
   | { type: "empty" }
 
 function parseContent(content: string): Block[] {
@@ -98,6 +101,23 @@ function parseContent(content: string): Block[] {
         i++
       }
       blocks.push({ type: "list", items })
+    } else if (/^\d+\.\s/.test(line)) {
+      const items: string[] = []
+      while (i < lines.length && /^\d+\.\s/.test(lines[i])) {
+        items.push(lines[i].replace(/^\d+\.\s/, "").trim())
+        i++
+      }
+      blocks.push({ type: "orderedList", items })
+    } else if (line.startsWith("> ")) {
+      const parts: string[] = []
+      while (i < lines.length && lines[i].startsWith("> ")) {
+        parts.push(lines[i].slice(2).trim())
+        i++
+      }
+      blocks.push({ type: "blockquote", text: parts.join(" ") })
+    } else if (line.trim() === "---" || line.trim() === "***" || line.trim() === "___") {
+      blocks.push({ type: "hr" })
+      i++
     } else if (line.trim() === "") {
       blocks.push({ type: "empty" })
       i++
@@ -206,6 +226,27 @@ export function PostContent({ content }: { content: string }) {
                 ))}
               </ul>
             )
+          case "orderedList":
+            return (
+              <ol key={idx} className="flex flex-col gap-1.5 pl-4 list-decimal list-inside">
+                {block.items.map((item, ii) => (
+                  <li key={ii} className="text-sm text-muted-foreground leading-relaxed">
+                    {parseInline(item)}
+                  </li>
+                ))}
+              </ol>
+            )
+          case "blockquote":
+            return (
+              <blockquote
+                key={idx}
+                className="border-l-2 border-primary/40 bg-secondary/30 px-4 py-3 text-sm italic text-muted-foreground"
+              >
+                {parseInline(block.text)}
+              </blockquote>
+            )
+          case "hr":
+            return <hr key={idx} className="my-6 border-border/40" />
           case "empty":
             return null
           default:

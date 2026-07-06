@@ -1,29 +1,33 @@
 import { notFound } from "next/navigation"
 import Link from "next/link"
-import { ArrowLeft, ArrowRight, Clock, Tag } from "lucide-react"
+import { ArrowLeft, ArrowRight, Clock, Tag, TrendingUp } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { Badge } from "@/components/ui/badge"
-import { getPostBySlug, posts } from "@/lib/blog-data"
 import { PostContent } from "@/components/post-content"
+import { getFinancePostBySlug, getAllFinanceSlugs } from "@/lib/finance-data"
 
 export function generateStaticParams() {
-  return posts.map((p) => ({ slug: p.slug }))
+  return getAllFinanceSlugs().map((slug) => ({ slug }))
 }
 
-export default async function BlogPostPage({
+export default async function FinancePostPage({
   params,
 }: {
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const post = getPostBySlug(slug)
+  const post = getFinancePostBySlug(slug)
   if (!post) notFound()
 
-  // Find prev/next posts
-  const idx = posts.findIndex((p) => p.slug === slug)
-  const prevPost = idx > 0 ? posts[idx - 1] : null
-  const nextPost = idx < posts.length - 1 ? posts[idx + 1] : null
+  // Find prev/next by slug (sorted by date desc in data layer)
+  const allSlugs = getAllFinanceSlugs()
+  const idx = allSlugs.indexOf(slug)
+  const prevSlug = idx > 0 ? allSlugs[idx - 1] : null
+  const nextSlug = idx < allSlugs.length - 1 ? allSlugs[idx + 1] : null
+
+  const prevPost = prevSlug ? getFinancePostBySlug(prevSlug) : null
+  const nextPost = nextSlug ? getFinancePostBySlug(nextSlug) : null
 
   return (
     <div className="min-h-screen">
@@ -35,30 +39,30 @@ export default async function BlogPostPage({
           <article className="min-w-0 lg:col-span-9">
             {/* Back */}
             <Link
-              href="/blog"
+              href="/finance"
               className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground"
             >
               <ArrowLeft className="size-3" />
-              返回笔记列表
+              返回复盘列表
             </Link>
 
             {/* Header */}
             <header className="mb-10">
               <div className="mb-4 flex flex-wrap items-center gap-3">
-                <span className="rounded-md border border-primary/30 bg-primary/10 px-2.5 py-0.5 font-mono text-xs text-primary">
-                  {post.category}
+                <span className="flex items-center gap-1.5 rounded-md border border-primary/30 bg-primary/10 px-2.5 py-0.5 font-mono text-xs text-primary">
+                  <TrendingUp className="size-3" />
+                  A股复盘
                 </span>
                 <span className="flex items-center gap-1.5 font-mono text-xs text-muted-foreground">
                   <Clock className="size-3" />
-                  {post.readTime} min read
+                  {post.date}
                 </span>
-                <time className="font-mono text-xs text-muted-foreground">{post.date}</time>
               </div>
               <h1 className="text-balance text-2xl font-semibold leading-snug tracking-tight text-foreground sm:text-3xl lg:text-4xl">
                 {post.title}
               </h1>
               <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-                {post.excerpt}
+                {post.summary}
               </p>
               <div className="mt-5 flex flex-wrap items-center gap-2">
                 <Tag className="size-3 text-muted-foreground" />
@@ -77,11 +81,11 @@ export default async function BlogPostPage({
 
             <div className="my-12 h-px bg-border/40" />
 
-            {/* Prev / Next navigation */}
+            {/* Prev / Next */}
             <nav className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {prevPost ? (
                 <Link
-                  href={`/blog/${prevPost.slug}`}
+                  href={`/finance/${prevPost.slug}`}
                   className="group flex flex-col gap-2 rounded-xl border border-border/30 bg-card/50 px-5 py-4 transition-all hover:border-border/60 hover:bg-card"
                 >
                   <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
@@ -96,7 +100,7 @@ export default async function BlogPostPage({
               )}
               {nextPost ? (
                 <Link
-                  href={`/blog/${nextPost.slug}`}
+                  href={`/finance/${nextPost.slug}`}
                   className="group flex flex-col items-end gap-2 rounded-xl border border-border/30 bg-card/50 px-5 py-4 text-right transition-all hover:border-border/60 hover:bg-card"
                 >
                   <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
@@ -112,7 +116,7 @@ export default async function BlogPostPage({
             </nav>
           </article>
 
-          {/* Sidebar TOC */}
+          {/* Sidebar */}
           <aside className="hidden lg:col-span-3 lg:block">
             <div className="sticky top-24">
               <div className="rounded-xl border border-border/30 bg-card/50 p-5">
@@ -120,38 +124,6 @@ export default async function BlogPostPage({
                   目录
                 </p>
                 <TableOfContents content={post.content} />
-              </div>
-
-              <div className="mt-6 rounded-xl border border-border/30 bg-card/50 p-5">
-                <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-                  相关文章
-                </p>
-                <ul className="flex flex-col gap-2">
-                  {posts
-                    .filter((p) => p.slug !== slug && p.category === post.category)
-                    .slice(0, 3)
-                    .map((related) => (
-                      <li key={related.slug}>
-                        <Link
-                          href={`/blog/${related.slug}`}
-                          className="text-sm leading-snug text-muted-foreground transition-colors hover:text-foreground"
-                        >
-                          {related.title}
-                        </Link>
-                      </li>
-                    ))}
-                  {posts.filter((p) => p.slug !== slug && p.category === post.category).length ===
-                    0 && (
-                    <li>
-                      <Link
-                        href="/blog"
-                        className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                      >
-                        浏览全部文章 →
-                      </Link>
-                    </li>
-                  )}
-                </ul>
               </div>
             </div>
           </aside>
