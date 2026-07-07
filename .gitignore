@@ -1,15 +1,47 @@
-# v0 sandbox internal files
-__v0_runtime_loader.js
-__v0_devtools.tsx
-__v0_jsx-dev-runtime.ts
-.snowflake/
-.v0-trash/
-.vercel/
+```
+# Dependencies
+node_modules/
 
-# Environment variables
-.env*.local
+# Environment
+.env
+.env.local
+.env.*
 
-# Common ignores
-node_modules
+# Editors
+.vscode/
+
+# Logs
+*.log
+
+# Build artifacts
+dist/
+build/
 .next/
+out/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.git/modules/
+*.tmproj
+*.sublime-project
+*.sublime-workspace
 .DS_Store
+Thumbs.db
+```
