@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { ArrowRight, BookOpen, Cpu, Wind, Layers, Code2, GitBranch } from "lucide-react"
+import { ArrowRight, BookOpen, Cpu, Wind, Layers, Code2, GitBranch, FileText, Microscope, GraduationCap } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { Badge } from "@/components/ui/badge"
@@ -23,22 +23,28 @@ const categoryIcons: Record<string, React.ReactNode> = {
   "软件学习": <BookOpen className="size-3.5" />,
 }
 
-const recentPosts = posts.slice(0, 4)
+const recentPosts = posts.slice(0, 3)
 
-const stats = [
-  { value: "6", label: "篇学习笔记" },
-  { value: "4", label: "个软件工具" },
-  { value: "3", label: "个仿真项目" },
-  { value: "2025", label: "开始学习" },
+const researchInterests = [
+  { icon: <Layers className="size-5" />, title: "有限元分析", description: "结构静力学、动力学及非线性分析" },
+  { icon: <Wind className="size-5" />, title: "计算流体动力学", description: "湍流模型、多相流及传热问题" },
+  { icon: <Microscope className="size-5" />, title: "多物理场耦合", description: "流固耦合、热 - 结构耦合仿真" },
+  { icon: <Code2 className="size-5" />, title: "数值方法", description: "有限元法、有限体积法理论基础" },
 ]
 
-const focusAreas = [
-  { icon: <Layers className="size-4" />, label: "有限元分析 (FEA)" },
-  { icon: <Wind className="size-4" />, label: "计算流体动力学 (CFD)" },
-  { icon: <GitBranch className="size-4" />, label: "结构稳定性分析" },
-  { icon: <Cpu className="size-4" />, label: "疲劳与断裂力学" },
-  { icon: <Code2 className="size-4" />, label: "Python 脚本自动化" },
-  { icon: <BookOpen className="size-4" />, label: "工程力学理论" },
+const publications = [
+  {
+    title: "基于 ANSYS 的简支梁静力学分析",
+    journal: "学习笔记",
+    year: "2025",
+    link: "/blog/ansys-simply-supported-beam",
+  },
+  {
+    title: "OpenFOAM 入门：不可压缩流动模拟",
+    journal: "学习笔记",
+    year: "2025",
+    link: "/blog/openfoam-incompressible-flow",
+  },
 ]
 
 export default function HomePage() {
@@ -46,183 +52,205 @@ export default function HomePage() {
     <div className="min-h-screen">
       <Navbar />
 
-      <main className="mx-auto max-w-[1400px] px-6 lg:px-10">
-        {/* ── Hero ── */}
-        <section className="grid gap-12 pb-20 pt-24 lg:grid-cols-12 lg:gap-16">
-          {/* Left: Intro */}
-          <div className="lg:col-span-7">
-            <p className="mb-5 font-mono text-xs uppercase tracking-[0.25em] text-primary">
-              CAE 学习记录
-            </p>
-            <h1 className="text-4xl font-semibold leading-[1.15] tracking-tight text-foreground sm:text-5xl lg:text-[3.5rem]">
-              用仿真探索<br />
-              <span className="text-muted-foreground">工程世界</span>
+      <main className="mx-auto max-w-5xl px-6 lg:px-8">
+        {/* ── Hero Section ── */}
+        <section className="py-16 lg:py-24">
+          <div className="flex flex-col items-start gap-8">
+            <div className="inline-flex items-center gap-2 rounded-full bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
+              <GraduationCap className="size-3.5" />
+              <span>CAE 仿真研究笔记</span>
+            </div>
+            
+            <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+              计算机辅助工程<span className="text-muted-foreground">学习与研究</span>
             </h1>
-            <p className="mt-7 max-w-lg text-base leading-relaxed text-muted-foreground">
-              这里记录我学习计算机辅助工程（CAE）的点滴——有限元分析、
-              CFD 流体仿真、结构力学理论与软件实践，一步一步走向工程仿真工程师。
+            
+            <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground">
+              本平台致力于记录计算机辅助工程（CAE）领域的学习历程与研究成果，
+              涵盖有限元分析（FEA）、计算流体动力学（CFD）及多物理场耦合仿真等方向。
+              通过系统化的学习笔记与实践案例，探索工程仿真技术的理论与实践应用。
             </p>
 
-            <div className="mt-10 flex flex-wrap items-center gap-4">
+            <div className="flex flex-wrap items-center gap-4 pt-4">
               <Link
                 href="/blog"
-                className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-all hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/20"
+                className="inline-flex items-center gap-2 rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
               >
-                浏览学习笔记
-                <ArrowRight className="size-3.5" />
+                <FileText className="size-4" />
+                学术笔记
               </Link>
               <Link
                 href="/about"
-                className="inline-flex items-center gap-2 rounded-lg border border-border/40 px-5 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:border-border/60 hover:text-foreground"
+                className="inline-flex items-center gap-2 rounded-md border border-border px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-accent"
               >
-                关于我
+                研究者简介
               </Link>
             </div>
           </div>
+        </section>
 
-          {/* Right: Skills */}
-          <div className="flex flex-col gap-3 lg:col-span-5">
-            <div className="rounded-xl border border-border/30 bg-card/50 p-6">
-              <p className="mb-6 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-                技能进度
-              </p>
-              <div className="flex flex-col gap-4">
-                {skills.map((skill) => (
-                  <div key={skill.name}>
-                    <div className="mb-2 flex items-center justify-between">
-                      <span className="text-sm font-medium text-foreground">{skill.name}</span>
-                      <span className="font-mono text-xs text-muted-foreground">{skill.level}%</span>
-                    </div>
-                    <div className="h-1 w-full overflow-hidden rounded-full bg-secondary">
-                      <div
-                        className="h-full rounded-full bg-primary transition-all"
-                        style={{ width: `${skill.level}%` }}
-                      />
-                    </div>
-                  </div>
-                ))}
+        {/* ── Research Interests ── */}
+        <section className="border-t border-border py-16">
+          <div className="mb-10">
+            <p className="mb-2 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+              Research Areas
+            </p>
+            <h2 className="text-2xl font-semibold text-foreground">研究方向</h2>
+          </div>
+
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {researchInterests.map((area) => (
+              <div
+                key={area.title}
+                className="group rounded-lg border border-border/50 bg-card p-6 transition-all hover:border-primary/50 hover:shadow-md"
+              >
+                <div className="mb-4 text-primary">{area.icon}</div>
+                <h3 className="mb-2 text-base font-semibold text-foreground">{area.title}</h3>
+                <p className="text-sm leading-relaxed text-muted-foreground">{area.description}</p>
               </div>
-            </div>
+            ))}
           </div>
         </section>
 
-        {/* ── Stats ── */}
-        <section className="mb-20 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-border/40 bg-border/40 sm:grid-cols-4">
-          {stats.map((stat) => (
-            <div key={stat.label} className="flex flex-col gap-1.5 bg-card px-6 py-6">
-              <p className="font-mono text-3xl font-semibold tracking-tight text-foreground">{stat.value}</p>
-              <p className="text-sm text-muted-foreground">{stat.label}</p>
-            </div>
-          ))}
-        </section>
-
-        {/* ── Recent Posts ── */}
-        <section className="mb-20">
+        {/* ── Selected Publications / Notes ── */}
+        <section className="border-t border-border py-16">
           <div className="mb-10 flex items-end justify-between">
             <div>
-              <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-                Blog
+              <p className="mb-2 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+                Selected Notes
               </p>
-              <h2 className="text-2xl font-semibold tracking-tight text-foreground">最新笔记</h2>
+              <h2 className="text-2xl font-semibold text-foreground">精选笔记</h2>
             </div>
             <Link
               href="/blog"
-              className="hidden items-center gap-1.5 rounded-lg border border-border/40 px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:border-border/60 hover:text-foreground sm:inline-flex"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-primary transition-colors hover:text-primary/80"
             >
-              全部文章
+              查看全部
               <ArrowRight className="size-3.5" />
             </Link>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="space-y-4">
             {recentPosts.map((post) => (
-              <article key={post.slug} className="group">
-                <Link href={`/blog/${post.slug}`} className="block h-full">
-                  <div className="flex h-full flex-col gap-3 rounded-xl border border-border/30 bg-card/50 p-6 transition-all hover:border-border/60 hover:bg-card">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="flex items-center gap-1.5 text-xs font-medium text-primary">
-                        {categoryIcons[post.category]}
-                        {post.category}
-                      </span>
-                      <span className="text-muted-foreground/50">·</span>
-                      <span className="font-mono text-xs text-muted-foreground">{post.date}</span>
-                      <span className="ml-auto font-mono text-xs text-muted-foreground">{post.readTime} min</span>
-                    </div>
-                    <h3 className="text-lg font-medium leading-snug text-foreground transition-colors group-hover:text-primary">
-                      {post.title}
-                    </h3>
-                    <p className="line-clamp-2 flex-1 text-sm leading-relaxed text-muted-foreground">
-                      {post.excerpt}
-                    </p>
-                    <div className="flex flex-wrap gap-1.5 pt-1">
-                      {post.tags.slice(0, 3).map((tag) => (
-                        <Badge
-                          key={tag}
-                          variant="secondary"
-                          className="px-2 py-0 text-xs font-normal"
-                        >
-                          {tag}
+              <article key={post.slug}>
+                <Link href={`/blog/${post.slug}`} className="group block">
+                  <div className="flex flex-col gap-3 rounded-lg border border-border/50 bg-card p-6 transition-all hover:border-primary/50 hover:shadow-sm md:flex-row md:items-center md:gap-6">
+                    <div className="flex-1">
+                      <div className="mb-2 flex flex-wrap items-center gap-3">
+                        <Badge variant="secondary" className="text-xs">
+                          {post.category}
                         </Badge>
-                      ))}
+                        <span className="font-mono text-xs text-muted-foreground">{post.date}</span>
+                      </div>
+                      <h3 className="text-lg font-semibold text-foreground transition-colors group-hover:text-primary">
+                        {post.title}
+                      </h3>
+                      <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
+                        {post.excerpt}
+                      </p>
                     </div>
+                    <ArrowRight className="hidden size-4 text-muted-foreground transition-transform group-hover:translate-x-1 md:block" />
                   </div>
                 </Link>
               </article>
             ))}
           </div>
+        </section>
 
-          {/* Mobile only link */}
-          <div className="mt-6 sm:hidden">
-            <Link
-              href="/blog"
-              className="inline-flex items-center gap-1.5 text-sm text-primary"
-            >
-              查看全部文章 <ArrowRight className="size-3.5" />
-            </Link>
+        {/* ── Skills & Tools ── */}
+        <section className="border-t border-border py-16">
+          <div className="mb-10">
+            <p className="mb-2 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+              Technical Skills
+            </p>
+            <h2 className="text-2xl font-semibold text-foreground">技术能力</h2>
+          </div>
+
+          <div className="grid gap-8 lg:grid-cols-2">
+            <div className="space-y-4">
+              {skills.map((skill) => (
+                <div key={skill.name}>
+                  <div className="mb-2 flex items-center justify-between">
+                    <span className="text-sm font-medium text-foreground">{skill.name}</span>
+                    <span className="font-mono text-xs text-muted-foreground">{skill.level}%</span>
+                  </div>
+                  <div className="h-1.5 w-full overflow-hidden rounded-full bg-secondary">
+                    <div
+                      className="h-full rounded-full bg-primary transition-all"
+                      style={{ width: `${skill.level}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="rounded-lg border border-border/50 bg-card/50 p-6">
+              <h3 className="mb-4 text-sm font-semibold text-foreground">核心工具</h3>
+              <div className="flex flex-wrap gap-2">
+                {[
+                  "ANSYS Workbench",
+                  "Abaqus",
+                  "OpenFOAM",
+                  "ANSYS Fluent",
+                  "SolidWorks",
+                  "Python",
+                  "MATLAB",
+                  "ParaView",
+                  "LaTeX",
+                  "Git",
+                ].map((tool) => (
+                  <Badge key={tool} variant="outline" className="text-xs">
+                    {tool}
+                  </Badge>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
 
-        {/* ── About Section ── */}
-        <section className="mb-20">
-          <div className="grid gap-12 lg:grid-cols-12">
+        {/* ── About ── */}
+        <section className="border-t border-border py-16">
+          <div className="grid gap-10 lg:grid-cols-12">
             <div className="lg:col-span-7">
-              <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-                About
+              <p className="mb-2 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+                About the Author
               </p>
-              <h2 className="mb-5 text-2xl font-semibold tracking-tight text-foreground">关于这个博客</h2>
-              <div className="flex flex-col gap-4 text-sm leading-relaxed text-muted-foreground">
+              <h2 className="mb-6 text-2xl font-semibold text-foreground">关于作者</h2>
+              <div className="space-y-4 text-sm leading-relaxed text-muted-foreground">
                 <p>
-                  我是一名正在系统学习 CAE 工程仿真的学生。这个博客是我记录学习历程的地方——
-                  每一篇文章都是一次真实的学习记录，包括遇到的问题、解决思路和学习心得。
-                  希望这些笔记能对同样走在 CAE 学习路上的朋友有所帮助。
+                  本人现为工程力学专业研究生，专注于计算机辅助工程（CAE）领域的系统学习与研究。
+                  研究方向包括结构有限元分析、计算流体动力学及多物理场耦合问题的数值模拟。
                 </p>
                 <p>
-                  主要学习方向：结构有限元分析（ANSYS / Abaqus）、计算流体动力学（Fluent / OpenFOAM）、
-                  多物理场耦合仿真。同时也在学习 Python 编程，用于自动化后处理和数据可视化。
+                  本平台旨在记录学习过程中的理论推导、软件操作实践及工程案例研究，
+                  为同领域的学习者与研究者提供参考。欢迎学术交流与合作。
                 </p>
               </div>
               <Link
                 href="/about"
-                className="mt-6 inline-flex items-center gap-2 rounded-lg border border-border/40 px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:border-border/60 hover:text-foreground"
+                className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-primary transition-colors hover:text-primary/80"
               >
-                了解更多 <ArrowRight className="size-3.5" />
+                查看详细简历 <ArrowRight className="size-3.5" />
               </Link>
             </div>
 
             <div className="lg:col-span-5">
-              <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-                学习方向
-              </p>
-              <div className="grid gap-2.5 sm:grid-cols-2">
-                {focusAreas.map((item) => (
-                  <div
-                    key={item.label}
-                    className="flex items-center gap-3 rounded-lg border border-border/30 bg-card/50 px-4 py-3.5 transition-colors hover:border-border/60 hover:bg-card"
-                  >
-                    <span className="text-primary">{item.icon}</span>
-                    <span className="text-sm text-foreground">{item.label}</span>
+              <div className="rounded-lg border border-border/50 bg-card/50 p-6">
+                <h3 className="mb-4 text-sm font-semibold text-foreground">联系方式</h3>
+                <div className="space-y-3 text-sm">
+                  <div className="flex items-center justify-between">
+                    <span className="text-muted-foreground">研究领域</span>
+                    <span className="font-medium text-foreground">CAE / FEA / CFD</span>
                   </div>
-                ))}
+                  <div className="flex items-center justify-between">
+                    <span className="text-muted-foreground">机构</span>
+                    <span className="font-medium text-foreground">某高校工程学院</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-muted-foreground">学术邮箱</span>
+                    <span className="font-medium text-foreground">research@example.edu</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
