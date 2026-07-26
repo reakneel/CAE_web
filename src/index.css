@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+:root {
+  --paper: #F9F7F2;
+  --ink: #1A1A1A;
+  --accent: #4A5D4E;
+  --accent-light: #627867;
+  --paper-card: #FFFFFF;
+  --paper-border: rgba(26, 26, 26, 0.12);
+}
+
+.dark {
+  --paper: #121413;
+  --ink: #F2EFF5;
+  --accent: #6E8B75;
+  --accent-light: #89A891;
+  --paper-card: #1A1D1B;
+  --paper-border: rgba(242, 239, 245, 0.12);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+}
+
+.font-serif-editorial {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+.font-sans-editorial {
+  font-family: 'Inter', sans-serif;
+}
+
+.vertical-text {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+.border-paper {
+  border-color: var(--paper-border);
+}
+
+/* Custom Editorial Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: var(--paper);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-light);
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+html.sepia {
+  filter: sepia(0.25) contrast(0.96);
+}

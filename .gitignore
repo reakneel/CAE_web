@@ -1,30 +1,8 @@
-```
-# Dependencies
 node_modules/
-
-# Build outputs
-.next/
-dist/
 build/
-out/
-
-# Environment variables
-.env
-.env.local
-.env.*
-
-# Logs
-*.log
-
-# Temporary files
-*.tmp
-*.swp
-
-# OS generated files
+dist/
+coverage/
 .DS_Store
-Thumbs.db
-
-# IDE specific
-.vscode/
-.idea/
-```
+*.log
+.env*
+!.env.example
