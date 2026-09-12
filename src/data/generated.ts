@@ -11,7 +11,7 @@ export const ARTICLES: Article[] = [
     date: '2026-09-13',
     category: 'Engineering',
     tags: ['CAE', 'Software', 'Automation'],
-    author: { name: 'ReakNeel', role: 'Independent Engineer' },
+    author: { name: 'ReakNeel', avatar: '', role: 'Independent Engineer' },
     coverImage: '',
     readTimeMinutes: 4,
     featured: true,
