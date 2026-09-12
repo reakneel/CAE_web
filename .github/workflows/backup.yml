@@ -23,17 +23,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Create immutable snapshot manifest
-        shell: bash
-        run: |
-          mkdir -p recovery
-          printf 'backup_generated_at=%s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > recovery/manifest.txt
-          printf 'source_commit=%s\n' "$GITHUB_SHA" >> recovery/manifest.txt
-          printf 'repository=%s\n' "$GITHUB_REPOSITORY" >> recovery/manifest.txt
-          git rev-parse HEAD >> recovery/manifest.txt
-          git status --short >> recovery/manifest.txt
-
-      - name: Update recovery branch
+      - name: Create recovery snapshot
         shell: bash
         run: |
           git config user.name 'github-actions[bot]'
@@ -41,7 +31,10 @@ jobs:
           git checkout --orphan recovery
           git rm -rf . >/dev/null 2>&1 || true
           git checkout main -- .
-          git checkout main -- recovery/manifest.txt
+          mkdir -p recovery
+          printf 'backup_generated_at=%s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > recovery/manifest.txt
+          printf 'source_commit=%s\n' "$GITHUB_SHA" >> recovery/manifest.txt
+          printf 'repository=%s\n' "$GITHUB_REPOSITORY" >> recovery/manifest.txt
           git add -A
-          git commit -m "backup: snapshot ${GITHUB_SHA::12}" || true
+          git commit -m "backup: snapshot ${GITHUB_SHA::12}"
           git push origin recovery --force
