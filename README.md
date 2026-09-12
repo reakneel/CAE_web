@@ -43,22 +43,24 @@ Then push to `main`. GitHub Actions regenerates the content index, builds the st
 
 ## Local development
 
+This repository uses Bun and its checked-in `bun.lock` file:
+
 ```bash
-npm ci
-npm run dev
+bun install --frozen-lockfile
+bun run dev
 ```
 
 Production build:
 
 ```bash
-npm run build
-npm run preview
+bun run build
+bun run preview
 ```
 
 Type check:
 
 ```bash
-npm run lint
+bun run lint
 ```
 
 ## GitHub Pages
