@@ -1,0 +1,40 @@
+name: CAE Web Disaster Backup
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '17 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: disaster-backup
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout full history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create recovery snapshot
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git checkout --orphan recovery
+          git rm -rf . >/dev/null 2>&1 || true
+          git checkout main -- .
+          mkdir -p recovery
+          printf 'backup_generated_at=%s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > recovery/manifest.txt
+          printf 'source_commit=%s\n' "$GITHUB_SHA" >> recovery/manifest.txt
+          printf 'repository=%s\n' "$GITHUB_REPOSITORY" >> recovery/manifest.txt
+          git add -A
+          git commit -m "backup: snapshot ${GITHUB_SHA::12}"
+          git push origin recovery --force
