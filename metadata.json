@@ -1,0 +1,6 @@
+{
+  "name": "CAE Modern Blog",
+  "description": "A high-performance modern Markdown blog featuring instant article search, interactive studio, auto-generated TOC, and AI article summaries.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
